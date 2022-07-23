@@ -1,13 +1,12 @@
 import './App.css';
 import { NewsContextProvider } from './NewsContextApi';
+import News from './components/News';
 
 
 function App() {
   return (
     <NewsContextProvider> 
-      <div> 
-        Hello from App
-      </div> 
+      <News />
     </NewsContextProvider>
   );
 }

@@ -4,7 +4,7 @@ import axios from "axios";
 export const NewsContext = createContext()
 
 export const NewsContextProvider = (props) => {
-    const [data, setData] = useState([])
+    const [data, setData] = useState()
     const apiKey = "45988b1a90db4c919e91bf44cabba346"
     const query = "bitcoin"
 
