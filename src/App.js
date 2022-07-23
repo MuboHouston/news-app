@@ -1,10 +1,14 @@
 import './App.css';
+import { NewsContextProvider } from './NewsContextApi';
+
 
 function App() {
   return (
-    <div>
-  
-    </div>
+    <NewsContextProvider> 
+      <div> 
+        Hello from App
+      </div> 
+    </NewsContextProvider>
   );
 }
 
