@@ -3,9 +3,7 @@ import React from 'react'
 function NewsArticle({ data }) {
   return (
     <div>
-        <h1>
-            {data.title}
-        </h1>
+        <a href={data.url} target="blank">{data.title}</a>
     </div>
   )
 }
