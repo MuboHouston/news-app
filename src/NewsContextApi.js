@@ -1,17 +1,17 @@
 import React, {createContext, useEffect, useState} from "react";
 //makes request to the APIs
 import axios from "axios";
+import ReactPaginate from "react-paginate";
 
 export const NewsContext = createContext()
 
 export const NewsContextProvider = (props) => {
     const [newsArticles, setNewsArticles] = useState()
     const [isLoading, setIsLoading] = useState(true)
-    const [totalArticles, setTotalArticles] = useState(0)
 
     const [query, setQuery] = useState("");
     const [searchInput, setSearchInput] = useState("")
-    const apiKey = "fea3b60db0f74c05949c8932953b6681"
+    const apiKey = "3053171c03544c3ab305aca859b8bbe6"
 
     const handleSubmit = e => {
         //prevents the page from reloading
@@ -19,18 +19,38 @@ export const NewsContextProvider = (props) => {
         setQuery(searchInput)
     }
 
+    const fetchMoreArticles = async (currentPage) => {
+        const result = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}&pageSize=15&page=${currentPage}`)
+
+        console.log("YES")
+
+        let articles = result.data.articles
+
+        return articles
+    }
+
+    console.log("news", newsArticles)
+
+    const handlePageChange = async (e) => {
+        // console.log("clicked", e.selected)
+        let currentPage = e.selected + 1
+
+        const newPage = await fetchMoreArticles(currentPage);
+        // console.log("new page",newPage)
+        setNewsArticles(newPage)
+    };
+
     useEffect(() => {
         // setIsLoading(true)
         const fetchData = async () => {
             try {
-                const result = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`)
+                const result = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}&pageSize=15&page=1&sortBy=publishedAt`)
 
-                console.log(result)
                 let articles = result.data.articles
                 let totalResults = result.data.totalResults
+                console.log("total", totalResults)
                 
                 setNewsArticles(articles)
-                setTotalArticles(totalResults)
 
             } catch (err) {
                 console.log(err)
@@ -55,10 +75,32 @@ export const NewsContextProvider = (props) => {
             {isLoading ? (
                 <p>Loading...</p> 
             ) : (
-                <NewsContext.Provider value={{ newsArticles, totalArticles }}>
+                <NewsContext.Provider value={{ newsArticles, query}}>
                     {props.children}
                 </NewsContext.Provider>
             )}
+
+            <ReactPaginate
+                nextLabel="next"
+                previousLabel="previous"
+                breakLabel="..."
+                forcePage={5}
+                pageCount={10}
+                marginPagesDisplayed={3}
+                pageRangeDisplayed={3}
+                onPageChange={handlePageChange}
+                renderOnZeroPageCount={null}
+                containerClassName={"pagination justify-content-center"}
+                pageClassName={"page-item"}
+                pageLinkClassName={"page-link"}
+                previousClassName={"page-item"}
+                previousLinkClassName={"page-link"}
+                nextClassName={"page-item"}
+                nextLinkClassName={"page-link"}
+                breakClassName={"page-item"}
+                breakLinkClassName={"page-link"}
+                activeClassName={"active"}
+            />
         </div>
     )
 }
