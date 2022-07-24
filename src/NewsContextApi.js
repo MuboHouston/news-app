@@ -63,15 +63,18 @@ export const NewsContextProvider = (props) => {
 
     return(
         <div> 
-            <form className="search-form" onSubmit={handleSubmit}>
-                <input 
-                    placeholder='Search for the news'
-                    value={searchInput}
-                    onChange={event => setSearchInput(event.target.value)}
-                />
-                <button type='submit'>Search</button>
-            </form>
-
+            <h1>News</h1>
+            <div className="form">
+                <form className="search-form" onSubmit={handleSubmit}>
+                    <input 
+                        placeholder='Search for the news'
+                        value={searchInput}
+                        onChange={event => setSearchInput(event.target.value)}
+                    />
+                    <button type='submit'>Search</button>
+                </form>
+            </div>    
+            
             {isLoading ? (
                 <p>Loading...</p> 
             ) : (
