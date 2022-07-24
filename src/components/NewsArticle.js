@@ -1,9 +1,15 @@
 import React from 'react'
 
-function NewsArticle({ data }) {
+function NewsArticle({ newsArticles }) {
   return (
     <div>
-        <a href={data.url} target="blank">{data.title}</a>
+        <h4>
+            <a href={newsArticles.url} target="blank">{newsArticles.title}</a>
+        </h4>
+        <h5>by: {newsArticles.author}</h5>
+        <p>{newsArticles.description} <span><a href={newsArticles.url} target="blank">read more</a></span></p>
+        <img src={newsArticles.urlToImage} alt={newsArticles.title} />
+
     </div>
   )
 }

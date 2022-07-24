@@ -1,14 +1,17 @@
 import React, {createContext, useEffect, useState} from "react";
+//makes request to the APIs
 import axios from "axios";
 
 export const NewsContext = createContext()
 
 export const NewsContextProvider = (props) => {
-    const [data, setData] = useState()
+    const [newsArticles, setNewsArticles] = useState()
     const [isLoading, setIsLoading] = useState(true)
+    const [totalArticles, setTotalArticles] = useState(0)
+
     const [query, setQuery] = useState("");
     const [searchInput, setSearchInput] = useState("")
-    const apiKey = "a8a9ac6e602045178b0f07b624b3256a"
+    const apiKey = "fea3b60db0f74c05949c8932953b6681"
 
     const handleSubmit = e => {
         //prevents the page from reloading
@@ -17,11 +20,26 @@ export const NewsContextProvider = (props) => {
     }
 
     useEffect(() => {
-        setIsLoading(false)
-        axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`)
-        .then(res => setData(res.data))
-        .catch(err => console.log(err))
-    }, [data, query])
+        // setIsLoading(true)
+        const fetchData = async () => {
+            try {
+                const result = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}`)
+
+                console.log(result)
+                let articles = result.data.articles
+                let totalResults = result.data.totalResults
+                
+                setNewsArticles(articles)
+                setTotalArticles(totalResults)
+
+            } catch (err) {
+                console.log(err)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+        fetchData()
+    }, [query])
 
     return(
         <div> 
@@ -37,7 +55,7 @@ export const NewsContextProvider = (props) => {
             {isLoading ? (
                 <p>Loading...</p> 
             ) : (
-                <NewsContext.Provider value={{ data }}>
+                <NewsContext.Provider value={{ newsArticles, totalArticles }}>
                     {props.children}
                 </NewsContext.Provider>
             )}
