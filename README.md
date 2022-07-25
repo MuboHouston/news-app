@@ -33,6 +33,3 @@ cd news-app
 ```bash
 npm start
 ```
-
-# Deployed App
-https://mubohouston.github.io/news-app/
