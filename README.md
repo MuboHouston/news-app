@@ -12,6 +12,9 @@ This is a web-based application built for getting news from around the world. Th
 - NewsAPI
 - Bootstrap
 
+# Screenshot
+![Website](assets/images/Screenshot.png)
+
 # Contributions 
 Contributions, issues, and feature requests are welcome!
 
