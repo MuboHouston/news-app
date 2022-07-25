@@ -7,11 +7,11 @@ export const NewsContext = createContext()
 
 export const NewsContextProvider = (props) => {
     const [newsArticles, setNewsArticles] = useState()
-    const [isLoading, setIsLoading] = useState(true)
+    const [pageCount, setPageCount] = useState(0)
 
     const [query, setQuery] = useState("");
     const [searchInput, setSearchInput] = useState("")
-    const apiKey = "3053171c03544c3ab305aca859b8bbe6"
+    const apiKey = "a77aa47aaf354a39a070a70db9b705ea"
 
     const handleSubmit = e => {
         //prevents the page from reloading
@@ -22,14 +22,12 @@ export const NewsContextProvider = (props) => {
     const fetchMoreArticles = async (currentPage) => {
         const result = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}&pageSize=15&page=${currentPage}`)
 
-        console.log("YES")
-
         let articles = result.data.articles
 
         return articles
     }
 
-    console.log("news", newsArticles)
+    // console.log("news", newsArticles)
 
     const handlePageChange = async (e) => {
         // console.log("clicked", e.selected)
@@ -41,54 +39,54 @@ export const NewsContextProvider = (props) => {
     };
 
     useEffect(() => {
-        // setIsLoading(true)
         const fetchData = async () => {
             try {
-                const result = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}&pageSize=15&page=1&sortBy=publishedAt`)
+                const result = await axios.get(`https://newsapi.org/v2/everything?q=${query}&apiKey=${apiKey}&pageSize=15&page=1&sortBy=popularity`)
 
                 let articles = result.data.articles
                 let totalResults = result.data.totalResults
-                console.log("total", totalResults)
+                // console.log("total", totalResults)
+                setPageCount(Math.ceil(totalResults/15))
+
                 
                 setNewsArticles(articles)
 
             } catch (err) {
                 console.log(err)
-            } finally {
-                setIsLoading(false)
-            }
+            } 
         }
         fetchData()
     }, [query])
 
     return(
         <div> 
-            <h1>News</h1>
-            <div className="form">
-                <form className="search-form" onSubmit={handleSubmit}>
-                    <input 
-                        placeholder='Search for the news'
-                        value={searchInput}
-                        onChange={event => setSearchInput(event.target.value)}
-                    />
-                    <button type='submit'>Search</button>
-                </form>
-            </div>    
-            
-            {isLoading ? (
-                <p>Loading...</p> 
-            ) : (
+            <div className="header">
+                <h1 className="title">News Connection</h1>
+                <h4 className="title-sub">We connect you with news from around the world!</h4>
+                <div className="form">
+                    <form className="search-form m-5" onSubmit={handleSubmit}>
+                        <input 
+                            className="input-form"
+                            placeholder='Search for the news'
+                            value={searchInput}
+                            onChange={event => setSearchInput(event.target.value)}
+                        />
+                        <br /> 
+                        <br />
+                        <button className="form-btn p-2 mt-3 rounded" type='submit'>Search</button>
+                    </form>
+                </div>    
+            </div>
+ 
                 <NewsContext.Provider value={{ newsArticles, query}}>
                     {props.children}
                 </NewsContext.Provider>
-            )}
 
             <ReactPaginate
                 nextLabel="next"
                 previousLabel="previous"
                 breakLabel="..."
-                forcePage={5}
-                pageCount={10}
+                pageCount={pageCount}
                 marginPagesDisplayed={3}
                 pageRangeDisplayed={3}
                 onPageChange={handlePageChange}

@@ -7,13 +7,13 @@ function News(props) {
 
     const { newsArticles } = useContext(NewsContext);  
     return (
-        <div>
+        <div className={"row row-cols-1 row-cols-md-3 g-4 m-2"}>
             {
             newsArticles
             ? 
             newsArticles.map(news =>
                 <NewsArticle newsArticles={news} key={news.url} />
-            ) : "No news"}
+            ) : ""}
         </div>
     )
 }
