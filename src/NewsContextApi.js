@@ -8,9 +8,9 @@ export const NewsContext = createContext()
 export const NewsContextProvider = (props) => {
     const [newsArticles, setNewsArticles] = useState()
     const [pageCount, setPageCount] = useState(0)
-
     const [query, setQuery] = useState("");
     const [searchInput, setSearchInput] = useState("")
+    
     const apiKey = "a77aa47aaf354a39a070a70db9b705ea"
 
     const handleSubmit = e => {

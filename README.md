@@ -3,7 +3,7 @@
 ## Description 
 This is a web-based application built for getting news from around the world. This app allows users to search for news of their choice. The results are sorted by popularity. 
 
-# Built With
+## Built With
 - React.js
 - HTML
 - CSS
@@ -12,13 +12,13 @@ This is a web-based application built for getting news from around the world. Th
 - NewsAPI
 - Bootstrap
 
-# Screenshot
+## Screenshot
 ![Website](assets/images/Screenshot.png)
 
-# Contributions 
+## Contributions 
 Contributions, issues, and feature requests are welcome!
 
-# Installation
+## Installation
 1. Clone the application
 ```bash
 git clone https://github.com/MuboHouston/news-app.git
@@ -29,7 +29,12 @@ git clone https://github.com/MuboHouston/news-app.git
 cd news-app
 ```
 
-3. Run Application
+3. Install Dependencies
+```bash
+npm install
+```
+
+4. Run Application
 ```bash
 npm start
 ```
